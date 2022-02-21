@@ -15,8 +15,8 @@ global counter
 counter = 0
 
 board = pyfirmata.Arduino('COM13')
-TOKEN = 'HSc6VtRWNdRupwqsKN1J'
-TOKEN_bot = 'NDkxMzcxNTAyNDk1NTk2NTQ0.W6AnXw.WZrG_xrzP2zdiIbO5iZm0XQSjdk'
+TOKEN = 'YOUR Donation Alerts Token'
+TOKEN_bot = 'YOUR Discord Bot Token'
 bot = commands.Bot(command_prefix='!')
 sio = socketio.Client()
 
@@ -29,8 +29,8 @@ async def on_ready():
 @bot.event
 async def on_voice_state_update(self, before, after):
 	global counter
-	channel = 336533397696675841
-	if self.id == 336532034006810634 and after.self_mute == True:
+	channel = 'your channel id in discord where microphone state monitored'
+	if self.id == 'your user id in discord' and after.self_mute == True:
 		counter = 0
 		board.digital[2].write(0)
 		time.sleep(1)
@@ -39,7 +39,7 @@ async def on_voice_state_update(self, before, after):
 		board.digital[2].write(1)
 		print("MIC MUTE")
 
-	if self.id == 336532034006810634 and after.self_mute == False:
+	if self.id == 'your user id in discord' and after.self_mute == False:
 		board.digital[2].write(0)
 		counter = 0
 		mystring = f'MIC t={counter}'
@@ -58,7 +58,7 @@ def on_message(data):
 	y = json.loads(data)
 	# text = "New donate from: " + (y['username']), (y['amount']), (y['currency'])
 	text = "New alert about " + (y['username'])
-	channel = 336533397696675841
+	channel = 'your channel id in discord where alerts are published'
 	asyncio.run_coroutine_threadsafe(send_msg(channel, text), bot.loop)
 	counter = 1
 	mystring = f'Alert t={counter}'
